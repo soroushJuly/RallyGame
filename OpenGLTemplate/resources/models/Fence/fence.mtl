@@ -1,0 +1,23 @@
+# Blender 3.6.5 MTL File: 'None'
+# www.blender.org
+
+newmtl Fence2
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd FenceLong_BaseColor.jpg
+map_Bump FenceLong_DX_Normal.jpg
+
+newmtl FencePost.001
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd FencePost_BaseColor.jpg

@@ -1,0 +1,13 @@
+# Blender 3.6.5 MTL File: 'None'
+# www.blender.org
+
+newmtl Rock7_MAT
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd rock-practice-03-agustin-honnun/textures/Rock7_MAT_BaseColor.png
+map_refl rock-practice-03-agustin-honnun/textures/Rock7_MAT_Metallic.png
+map_Bump -bm 1.000000 rock-practice-03-agustin-honnun/textures/Rock7_MAT_Normal_Directx.png

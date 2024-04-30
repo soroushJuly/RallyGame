@@ -1,0 +1,24 @@
+# Blender 3.6.5 MTL File: 'None'
+# www.blender.org
+
+newmtl mat0
+Ns 200.000000
+Ka 1.000000 1.000000 1.000000
+Ks 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+illum 2
+map_Kd mat0_Diffuse.png
+map_d mat0_Diffuse.png
+map_Bump -bm 1.000000 mat0_Bump.png
+
+newmtl mat0.001
+Ns 200.000000
+Ka 1.000000 1.000000 1.000000
+Ks 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+illum 2
+map_Kd mat0_Diffuse_0001.png
+map_d mat0_Diffuse_0001.png
+map_Bump -bm 1.000000 mat0_Bump_0001.png

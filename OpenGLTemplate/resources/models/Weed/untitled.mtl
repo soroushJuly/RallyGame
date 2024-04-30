@@ -1,0 +1,53 @@
+# Blender 3.6.5 MTL File: 'None'
+# www.blender.org
+
+newmtl Branch0
+Ns 56.568546
+Ka 1.000000 1.000000 1.000000
+Ks 0.100000 0.100000 0.100000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 3
+map_Kd branch1 2.png
+
+newmtl Branch1
+Ns 56.568546
+Ka 1.000000 1.000000 1.000000
+Ks 0.100000 0.100000 0.100000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 3
+map_Kd branch1 2.png
+
+newmtl Canopy
+Ns 56.568546
+Ka 1.000000 1.000000 1.000000
+Ks 0.100000 0.100000 0.100000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 0.500000
+illum 6
+map_Kd leaf2.png
+
+newmtl Leaves
+Ns 10.717731
+Ka 1.000000 1.000000 1.000000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+illum 1
+map_Kd leaf2.png
+map_d C:/elmleaf.tga
+
+newmtl Trunk
+Ns 10.717731
+Ka 1.000000 1.000000 1.000000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 1
+map_Kd branch1 2.png
+map_Bump -bm 0.750000 C:/Map #2
