@@ -29,7 +29,7 @@ Ke 0.000000 0.000000 0.000000
 Ni 1.450000
 d 0.500000
 illum 6
-map_Kd leaf2.png
+map_Kd 
 
 newmtl Leaves
 Ns 10.717731
@@ -38,8 +38,7 @@ Ks 0.000000 0.000000 0.000000
 Ke 0.000000 0.000000 0.000000
 Ni 1.450000
 illum 1
-map_Kd leaf2.png
-map_d C:/elmleaf.tga
+map_Kd 
 
 newmtl Trunk
 Ns 10.717731
