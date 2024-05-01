@@ -1,12 +1,26 @@
 #pragma once
 
+#include "Common.h"
 #include "./include/glm/gtc/type_ptr.hpp"
 #include "./include/glm/gtc/matrix_transform.hpp"
+
+class PlayerPawn;
 
 class CCamera {
 public:
 	CCamera();										// Constructor - sets default values for camera position, viewvector, upvector, and speed
 	~CCamera();										// Destructor
+
+	// Camera States
+	enum States
+	{
+		FREE,
+		THIRD_PERSON,
+		FIRST_PERSON,
+		TOP_DOWN,
+		FRONT_VIEW,
+		REAR_MIRROR
+	};
 
 	glm::vec3 GetPosition() const;					// Gets the position of the camera centre of projection
 	glm::vec3 GetView() const;						// Gets the position of the camera view point
@@ -17,10 +31,13 @@ public:
 	glm::mat4 GetViewMatrix();						// Gets the camera view matrix - note this is not stored in the class but returned using glm::lookAt() in GetViewMatrix()
 
 	// Set the camera position, viewpoint, and up vector
-	void Set(const glm::vec3 &position, const glm::vec3 &viewpoint, const glm::vec3 &upVector);
-	
+	void Set(const glm::vec3& position, const glm::vec3& viewpoint, const glm::vec3& upVector);
+	// Set different Camera set-ups based on an object 
+	void SetCamera(States cameraState, double m_dt, glm::vec3 forwardVec, glm::vec3 rightVec, std::shared_ptr<PlayerPawn> obj);
+
+
 	// Rotate the camera viewpoint -- this effectively rotates the camera
-	void RotateViewPoint(float angle, const glm::vec3 &viewPoint);
+	void RotateViewPoint(float angle, const glm::vec3& viewPoint);
 
 	// Respond to mouse movement to rotate the camera
 	void SetViewByMouse();
@@ -41,7 +58,7 @@ public:
 	void SetPerspectiveProjectionMatrix(float fov, float aspectRatio, float nearClippingPlane, float farClippingPlane);
 	void SetOrthographicProjectionMatrix(int width, int height);
 
-	glm::mat3 ComputeNormalMatrix(const glm::mat4 &modelViewMatrix);
+	glm::mat3 ComputeNormalMatrix(const glm::mat4& modelViewMatrix);
 
 private:
 	glm::vec3 m_position;			// The position of the camera's centre of projection

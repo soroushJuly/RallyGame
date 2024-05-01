@@ -1,5 +1,6 @@
 #include "camera.h"
 #include "gamewindow.h"
+#include "PlayerPawn.h"
 
 // Constructor for camera -- initialise with some default values
 CCamera::CCamera()
@@ -185,3 +186,37 @@ glm::mat3 CCamera::ComputeNormalMatrix(const glm::mat4 &modelViewMatrix)
 	return glm::transpose(glm::inverse(glm::mat3(modelViewMatrix)));
 }
 
+// Set the camera properties based on the current state
+void CCamera::SetCamera(States cameraState, double m_dt, glm::vec3 forwardVec, glm::vec3 rightVec, std::shared_ptr<PlayerPawn> obj)
+{
+	if (cameraState == States::FREE)
+	{
+		Update(m_dt);
+		Set(GetPosition(), GetView(), GetUpVector());
+	}
+
+	if (cameraState == States::THIRD_PERSON)
+		Set((obj->GetPosition() - glm::vec3(forwardVec.x * 17, -9.f, forwardVec.z * 17)),
+			obj->GetPosition() + forwardVec * 5.0f,
+			glm::vec3(0.f, 1.f, 0.f));
+
+	if (cameraState == States::FIRST_PERSON)
+		Set((obj->GetPosition() + 1.f * rightVec - 0.5f * forwardVec + glm::vec3(0.f, 4.35f, 0.f)),
+			obj->GetPosition() + forwardVec * 5000.0f - glm::vec3(0.f, 2.f, 0.f),
+			glm::vec3(0.f, 1.f, 0.f));
+
+	if (cameraState == States::TOP_DOWN)
+		Set((obj->GetPosition() + glm::vec3(0.f, 200.f, 0.f)),
+			obj->GetPosition(),
+			glm::vec3(1.f, 0.f, 1.f));
+
+	if (cameraState == States::FRONT_VIEW)
+		Set((obj->GetPosition() + forwardVec * 20.f + glm::vec3(0.f, 5.5f, 0.f)),
+			obj->GetPosition(),
+			glm::vec3(0.f, 1.f, 0.f));
+
+	if (cameraState == States::REAR_MIRROR)
+		Set((obj->GetPosition() - forwardVec * 6.f + glm::vec3(0.f, 5.5f, 0.f)),
+			obj->GetPosition() - forwardVec * 20.f + glm::vec3(0.f, 5.5f, 0.f),
+			glm::vec3(0.f, 1.f, 0.f));
+}

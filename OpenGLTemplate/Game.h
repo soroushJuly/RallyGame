@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Common.h"
+#include "Camera.h"
 #include "GameWindow.h"
 #include "MatrixStack.h"
 
@@ -26,16 +27,6 @@ class Quad;
 class CFrameBufferObject;
 class PlayerPawn;
 //class MatrixStack;
-
-enum CameraStates
-{
-	FREE,
-	THIRD_PERSON,
-	FIRST_PERSON,
-	TOP_DOWN,
-	FRONT_VIEW,
-	REAR_MIRROR
-};
 
 enum GameStates
 {
@@ -69,7 +60,7 @@ private:
 	unsigned int texture1;
 	shared_ptr<CCatmullRom> m_catmull;
 
-	CameraStates m_cameraState = CameraStates::FREE;
+	CCamera::States m_cameraState = CCamera::States::FREE;
 	GameStates gameState = GameStates::PLAY;
 
 	//Actor *m_car;
@@ -126,7 +117,6 @@ private:
 	void DisplayFrameRate();
 	void RenderObject(glutil::MatrixStack* modelViewMatrixStack, CShaderProgram* shaderProgram, CCamera* camera, Actor* actor);
 	void GameLoop();
-	void SetCamera(CameraStates cameraState);
 	GameWindow m_gameWindow;
 	HINSTANCE m_hInstance;
 	int m_frameCount;

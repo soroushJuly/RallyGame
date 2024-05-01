@@ -127,7 +127,8 @@ void Game::Initialise()
 	m_hud = make_shared<HUD>();
 	m_hud->Initilize();
 
-	m_cameraState = CameraStates::THIRD_PERSON;
+	// Initilize camera to third person
+	m_cameraState = CCamera::States::THIRD_PERSON;
 
 	RECT dimensions = m_gameWindow.GetDimensions();
 
@@ -472,7 +473,7 @@ void Game::RenderScene(int pass)
 			modelViewMatrixStack.Pop();
 		}
 
-		if (pass == 1 && (m_cameraState == CameraStates::FIRST_PERSON))
+		if (pass == 1 && (m_cameraState == CCamera::States::FIRST_PERSON))
 		{
 			modelViewMatrixStack.Push();
 			modelViewMatrixStack.SetIdentity();
@@ -502,15 +503,15 @@ void Game::Update()
 
 	// Change the camera based on the input
 	if (GetKeyState(VK_NUMPAD1) & 0x80 || GetKeyState('1') & 0x80)
-		m_cameraState = CameraStates::THIRD_PERSON;
+		m_cameraState = CCamera::States::THIRD_PERSON;
 	if (GetKeyState(VK_NUMPAD2) & 0x80 || GetKeyState('2') & 0x80)
-		m_cameraState = CameraStates::FIRST_PERSON;
+		m_cameraState = CCamera::States::FIRST_PERSON;
 	if (GetKeyState(VK_NUMPAD3) & 0x80 || GetKeyState('3') & 0x80)
-		m_cameraState = CameraStates::TOP_DOWN;
+		m_cameraState = CCamera::States::TOP_DOWN;
 	if (GetKeyState(VK_NUMPAD4) & 0x80 || GetKeyState('4') & 0x80)
-		m_cameraState = CameraStates::FRONT_VIEW;
+		m_cameraState = CCamera::States::FRONT_VIEW;
 	if (GetKeyState(VK_NUMPAD0) & 0x80 || GetKeyState('0') & 0x80)
-		m_cameraState = CameraStates::FREE;
+		m_cameraState = CCamera::States::FREE;
 
 	// Update timers
 	m_timePassed += m_dt;
@@ -534,11 +535,11 @@ void Game::Update()
 			m_playerTime -= 5000.f;
 		}
 	}
-	// Removal of the pickup object
+	// Removal of the pickup objects
 	for (auto index : timeRemovals)
-	{
 		m_timePowerUpList.erase(m_timePowerUpList.begin() + index);
-	}
+	for (auto index : turboRemovals)
+		m_turboPowerUpList.erase(m_turboPowerUpList.begin() + index);
 
 	// Car and turbo powerup collisions
 	vector<int> turboRemovals;
@@ -550,12 +551,7 @@ void Game::Update()
 			m_car->activateTurbo();
 		}
 	}
-	// Removal of the pickup object
-	for (auto index : turboRemovals)
-	{
-		m_turboPowerUpList.erase(m_turboPowerUpList.begin() + index);
-	}
-
+	
 	// movement on the spline
 	m_currentDistance += m_dt * m_car->GetSpeed();
 	glm::vec3 p;
@@ -571,7 +567,6 @@ void Game::Update()
 
 
 	// Update car position
-	//m_car->Update(m_dt);
 	m_car->Update(m_dt);
 	if (GetKeyState('D') & 0x80) {
 		if (m_car->GetRotationAmountY() > -.45f)
@@ -634,18 +629,18 @@ void Game::Update()
 void Game::Render()
 {
 	m_pFBO->Bind();
-	CameraStates prev = m_cameraState;
+	CCamera::States prev = m_cameraState;
 	// If we are in free camera view don't capture
-	if (prev != CameraStates::FREE)
+	if (prev != CCamera::States::FREE)
 	{
 		// Capture the scene with rear mirror view applied
-		SetCamera(CameraStates::REAR_MIRROR);
+		m_pCamera->SetCamera(CCamera::States::REAR_MIRROR, m_dt, forwardVec, rightVec, m_car);
 		RenderScene(0);
 	}
 
 	// Capture the scene with MIRROR already rendere
 	m_pFBO1->Bind();
-	SetCamera(prev);
+	m_pCamera->SetCamera(prev, m_dt, forwardVec, rightVec, m_car);
 	RenderScene(1);
 
 	// Render scene with BLUR and MIRROR
@@ -766,41 +761,6 @@ void Game::AddLights(CShaderProgram* shader, glm::mat4 viewMatrix, glm::mat3 vie
 		shader->SetUniform("lights[4].Ls", glm::vec3(0.8f, .0f, .0f));
 		shader->SetUniform("lights[4].exponent", .005f);
 	}
-}
-
-// Set the camera properties based on the current state
-void Game::SetCamera(CameraStates cameraState)
-{
-	if (cameraState == CameraStates::FREE)
-	{
-		m_pCamera->Update(m_dt);
-		m_pCamera->Set(m_pCamera->GetPosition(), m_pCamera->GetView(), m_pCamera->GetUpVector());
-	}
-
-	if (cameraState == CameraStates::THIRD_PERSON)
-		m_pCamera->Set((m_car->GetPosition() - glm::vec3(forwardVec.x * 17, -9.f, forwardVec.z * 17)),
-			m_car->GetPosition() + forwardVec * 5.0f,
-			glm::vec3(0.f, 1.f, 0.f));
-
-	if (cameraState == CameraStates::FIRST_PERSON)
-		m_pCamera->Set((m_car->GetPosition() + 1.f * rightVec - 0.5f * forwardVec + glm::vec3(0.f, 4.35f, 0.f)),
-			m_car->GetPosition() + forwardVec * 5000.0f - glm::vec3(0.f, 2.f, 0.f),
-			glm::vec3(0.f, 1.f, 0.f));
-
-	if (cameraState == CameraStates::TOP_DOWN)
-		m_pCamera->Set((m_car->GetPosition() + glm::vec3(0.f, 200.f, 0.f)),
-			m_car->GetPosition(),
-			glm::vec3(1.f, 0.f, 1.f));
-
-	if (cameraState == CameraStates::FRONT_VIEW)
-		m_pCamera->Set((m_car->GetPosition() + forwardVec * 20.f + glm::vec3(0.f, 5.5f, 0.f)),
-			m_car->GetPosition(),
-			glm::vec3(0.f, 1.f, 0.f));
-
-	if (cameraState == CameraStates::REAR_MIRROR)
-		m_pCamera->Set((m_car->GetPosition() - forwardVec * 6.f + glm::vec3(0.f, 5.5f, 0.f)),
-			m_car->GetPosition() - forwardVec * 20.f + glm::vec3(0.f, 5.5f, 0.f),
-			glm::vec3(0.f, 1.f, 0.f));
 }
 
 void Game::DisplayFrameRate()
