@@ -13,11 +13,8 @@ void CCube::Create(string filename, float halfHeight) {
 	glBindVertexArray(m_vao);
 	m_vbo.Create();
 	m_vbo.Bind();
-	// Write the code to add interleaved vertex attributes to the VBO 
-	//float halfWidth = m_width / 2.0f;
-	//float halfHeight = m_height / 2.0f;
+
 	float halfWidth = 1.0f;
-	//float halfHeight = halfHeight;
 	float halfDepth = 1.0f;
 	float textureRepeat = 1.f;
 
@@ -27,29 +24,29 @@ void CCube::Create(string filename, float halfHeight) {
 		// Front Side
 		glm::vec3(halfWidth, halfHeight, halfDepth),glm::vec3(-halfWidth, halfHeight, halfDepth), glm::vec3(halfWidth, -halfHeight, halfDepth),
 		 glm::vec3(-halfWidth, -halfHeight, halfDepth),
-		// Back Side
-		glm::vec3(-halfWidth, halfHeight, -halfDepth),glm::vec3(halfWidth, halfHeight, -halfDepth), glm::vec3(-halfWidth, -halfHeight, -halfDepth),
-		 glm::vec3(halfWidth, -halfHeight, -halfDepth),
-		// Left Side
-		glm::vec3(-halfWidth, halfHeight, halfDepth),glm::vec3(-halfWidth, halfHeight, -halfDepth), glm::vec3(-halfWidth, -halfHeight, halfDepth),
-		 glm::vec3(-halfWidth, -halfHeight, -halfDepth),
-		// Right Side
-		glm::vec3(halfWidth, halfHeight, -halfDepth),glm::vec3(halfWidth, halfHeight, halfDepth), glm::vec3(halfWidth, -halfHeight, -halfDepth),
-		 glm::vec3(halfWidth, -halfHeight, halfDepth),
-		// Top Side
-		glm::vec3(-halfWidth, halfHeight, -halfDepth),glm::vec3(-halfWidth, halfHeight, halfDepth), glm::vec3(halfWidth, halfHeight, -halfDepth),
-		 glm::vec3(halfWidth, halfHeight, halfDepth),
-		// Bottom Side
-		glm::vec3(halfWidth, -halfHeight, -halfDepth),glm::vec3(halfWidth, -halfHeight, halfDepth), glm::vec3(-halfWidth, -halfHeight, -halfDepth),
-		 glm::vec3(-halfWidth, -halfHeight, halfDepth),
+		 // Back Side
+		 glm::vec3(-halfWidth, halfHeight, -halfDepth),glm::vec3(halfWidth, halfHeight, -halfDepth), glm::vec3(-halfWidth, -halfHeight, -halfDepth),
+		  glm::vec3(halfWidth, -halfHeight, -halfDepth),
+		  // Left Side
+		  glm::vec3(-halfWidth, halfHeight, halfDepth),glm::vec3(-halfWidth, halfHeight, -halfDepth), glm::vec3(-halfWidth, -halfHeight, halfDepth),
+		   glm::vec3(-halfWidth, -halfHeight, -halfDepth),
+		   // Right Side
+		   glm::vec3(halfWidth, halfHeight, -halfDepth),glm::vec3(halfWidth, halfHeight, halfDepth), glm::vec3(halfWidth, -halfHeight, -halfDepth),
+			glm::vec3(halfWidth, -halfHeight, halfDepth),
+			// Top Side
+			glm::vec3(-halfWidth, halfHeight, -halfDepth),glm::vec3(-halfWidth, halfHeight, halfDepth), glm::vec3(halfWidth, halfHeight, -halfDepth),
+			 glm::vec3(halfWidth, halfHeight, halfDepth),
+			 // Bottom Side
+			 glm::vec3(halfWidth, -halfHeight, -halfDepth),glm::vec3(halfWidth, -halfHeight, halfDepth), glm::vec3(-halfWidth, -halfHeight, -halfDepth),
+			  glm::vec3(-halfWidth, -halfHeight, halfDepth),
 	};
 
 	// Texture coordinates
 	glm::vec2 planeTexCoords[4] =
 	{
-		glm::vec2(0.0f, textureRepeat), 
-		glm::vec2(0.0f, 0.0f), 
-		glm::vec2(textureRepeat, textureRepeat), 
+		glm::vec2(0.0f, textureRepeat),
+		glm::vec2(0.0f, 0.0f),
+		glm::vec2(textureRepeat, textureRepeat),
 		glm::vec2(textureRepeat, 0.0f)
 	};
 

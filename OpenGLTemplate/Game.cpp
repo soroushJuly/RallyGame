@@ -535,12 +535,6 @@ void Game::Update()
 			m_playerTime -= 5000.f;
 		}
 	}
-	// Removal of the pickup objects
-	for (auto index : timeRemovals)
-		m_timePowerUpList.erase(m_timePowerUpList.begin() + index);
-	for (auto index : turboRemovals)
-		m_turboPowerUpList.erase(m_turboPowerUpList.begin() + index);
-
 	// Car and turbo powerup collisions
 	vector<int> turboRemovals;
 	for (int i = 0; i < m_turboPowerUpList.size(); i++)
@@ -551,7 +545,13 @@ void Game::Update()
 			m_car->activateTurbo();
 		}
 	}
-	
+
+	// Removal of the pickup objects
+	for (auto index : timeRemovals)
+		m_timePowerUpList.erase(m_timePowerUpList.begin() + index);
+	for (auto index : turboRemovals)
+		m_turboPowerUpList.erase(m_turboPowerUpList.begin() + index);
+
 	// movement on the spline
 	m_currentDistance += m_dt * m_car->GetSpeed();
 	glm::vec3 p;
