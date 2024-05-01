@@ -193,7 +193,7 @@ void Game::Initialise()
 	m_arrow->Create("resources\\textures\\", "arrow.jpg", 1.6f, 1.4f, 3.f, 1.f);
 
 	// Load font
-	m_pFtFont->LoadFont("resources\\fonts\\segoeui.ttf", 64);
+	m_pFtFont->LoadFont("resources\\fonts\\sf-atarian-system.bold.ttf", 32);
 	m_pFtFont->SetShaderProgram(pFontProgram);
 
 	// Random item generator (rock, powerup, etc)
@@ -339,8 +339,8 @@ void Game::RenderScene(int pass)
 		fontProgram->SetUniform("matrices.modelViewMatrix", glm::mat4(1));
 		fontProgram->SetUniform("matrices.projMatrix", m_pCamera->GetOrthographicProjectionMatrix());
 		fontProgram->SetUniform("vColour", glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
-		m_pFtFont->Render(m_width / 2 - 100, m_height - 92, 20, "You finished the game!");
-		m_pFtFont->Render(m_width / 2 - 100, m_height - 140, 20, "Your time: %d", (int)(m_playerTime / 1000));
+		m_pFtFont->Render(m_width / 2 - 100, m_height - 92, 28, "You finished the game!");
+		m_pFtFont->Render(m_width / 2 - 100, m_height - 140, 28, "Your time: %d", (int)(m_playerTime / 1000));
 	}
 	else
 	{
@@ -565,7 +565,6 @@ void Game::Update()
 
 	m_spaceShipOrientation = glm::mat4(glm::mat3(T, B, N));
 
-
 	// Update car position
 	m_car->Update(m_dt);
 	if (GetKeyState('D') & 0x80) {
@@ -786,8 +785,8 @@ void Game::DisplayFrameRate()
 		fontProgram->SetUniform("matrices.modelViewMatrix", glm::mat4(1));
 		fontProgram->SetUniform("matrices.projMatrix", m_pCamera->GetOrthographicProjectionMatrix());
 		fontProgram->SetUniform("vColour", glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
-		m_pFtFont->Render(90, m_height - 35, 20, "LAP: %d/%d", m_catmull->CurrentLap(distanceTraveled), 3);
-		m_pFtFont->Render(90, m_height - 92, 20, "Time: %d", (int)(m_playerTime / 1000));
+		m_pFtFont->Render(90, m_height - 35, 32, "LAP: %d/%d", m_catmull->CurrentLap(distanceTraveled), 3);
+		m_pFtFont->Render(90, m_height - 97, 32, "Time: %d", (int)(m_playerTime / 1000));
 		m_pFtFont->Render(20, m_height - 200, 14, "FPS: %d", m_framesPerSecond);
 	}
 }
