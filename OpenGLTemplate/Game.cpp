@@ -671,7 +671,6 @@ void Game::AddLights(CShaderProgram* shader, glm::mat4 viewMatrix, glm::mat3 vie
 	{
 		isNight = false;
 	}
-	//glm::vec4 lightPosition1 = glm::vec4(-100, 0, -100, 1); // Position of light source *in world coordinates*
 	shader->SetUniform("lights[0].position", viewMatrix * lightPosition1); // Position of light source *in eye coordinates*
 	shader->SetUniform("lights[0].La", glm::vec3(glm::max(1.0f * intensity, 0.57f), glm::max(1.0f * intensity, 0.61f), glm::max(0.86f * intensity, 0.57f)));		// Ambient colour of light
 	shader->SetUniform("lights[0].Ld", glm::vec3(glm::max(1.0f * intensity, 0.57f), glm::max(1.0f * intensity, 0.61f), glm::max(0.86f * intensity, 0.57f)));		// Diffuse colour of light
@@ -682,21 +681,19 @@ void Game::AddLights(CShaderProgram* shader, glm::mat4 viewMatrix, glm::mat3 vie
 	shader->SetUniform("material1.Ms", glm::vec3(0.0f));	// Specular material reflectance
 	shader->SetUniform("material1.shininess", 15.0f);		// Shininess material property
 
-	// Light [5] -> moon directional light
 	if (isNight)
 	{
 		glm::vec4 moonLight = glm::vec4(lightPosition1.x, -lightPosition1.y, lightPosition1.z, 1);
-		//glm::vec4 moonLight = glm::rotate(viewMatrix, 180, glm::vec3(lightPosition1.x,lightPosition1.y, lightPosition1.z));
-		shader->SetUniform("lights[0].position", viewMatrix * moonLight); // Position of light source *in eye coordinates*
-		shader->SetUniform("lights[0].La", glm::vec3(glm::vec3(		// Ambient colour of light
+		shader->SetUniform("lights[0].position", viewMatrix * moonLight);	// Position of light source *in eye coordinates*
+		shader->SetUniform("lights[0].La", glm::vec3(glm::vec3(				// Ambient colour of light
 			0.57f + intensity * (0.57f - .15f),
 			0.61f + intensity * (0.61f - .21f),
 			0.57f + intensity * (0.57f - .28f))));
-		shader->SetUniform("lights[0].Ld", glm::vec3(glm::vec3(		// Diffuse colour of light
+		shader->SetUniform("lights[0].Ld", glm::vec3(glm::vec3(				// Diffuse colour of light
 			0.57f + intensity * (0.57f - .15f),
 			0.61f + intensity * (0.61f - .21f),
 			0.57f + intensity * (0.57f - .28f))));
-		shader->SetUniform("lights[0].Ls", glm::vec3(.15f, .21f, .28f));		// Specular colour of light
+		shader->SetUniform("lights[0].Ls", glm::vec3(.15f, .21f, .28f));	// Specular colour of light
 	}
 
 	// light[1] -> right front car spotlight
