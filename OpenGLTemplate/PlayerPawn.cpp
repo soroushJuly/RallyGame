@@ -3,6 +3,7 @@
 PlayerPawn::PlayerPawn() : Actor::Actor()
 {
 	m_speed = 0.0f;
+	a = 0.f;
 	isBreaking = false;
 	SetScale(glm::vec3(2.4f));
 }
@@ -11,17 +12,10 @@ PlayerPawn::~PlayerPawn() {}
 
 void PlayerPawn::Accelerate(double delta) {
 	isBreaking = false;
-	if (!isTurbo)
+	a += 0.000002f;
+	if (a > 0.000052f)
 	{
-		m_speed += (0.0002f * delta);
-		if (m_speed > SPEED_LIMIT)
-			m_speed = SPEED_LIMIT;
-	}
-	else
-	{
-		m_speed += 0.001f * delta;
-		if (m_speed > SPEED_LIMIT * 1.5f)
-			m_speed = SPEED_LIMIT * 1.5f;
+		a = 0.000052f;
 	}
 }
 
@@ -49,7 +43,7 @@ void PlayerPawn::activateTurbo()
 
 void PlayerPawn::Break(double deltaTime) {
 	isBreaking = true;
-	m_speed -= 0.00013f * deltaTime;
+	a -= 0.0000015f;
 	if (m_speed < 0.0000f)
 	{
 		m_speed = 0.f;
@@ -59,19 +53,29 @@ void PlayerPawn::Break(double deltaTime) {
 
 void PlayerPawn::Update(double deltaTime)
 {
+	m_speed += a * deltaTime;
+	a -= 0.000001f;
+	// If we have speed decrease speed
+	if (m_speed < 0.0000f)
+	{
+		isBreaking = false;
+		m_speed = 0.f;
+		a = 0.f;
+	}
+
 	turboTimer -= deltaTime;
 	if (turboTimer < 0.0)
 	{
 		isTurbo = false;
 	}
-	// If we have speed decrease speed
-	if (m_speed > 0.0001f)
+	if (!isTurbo)
 	{
-		m_speed -= 0.0001f * deltaTime;
-		if (m_speed < 0.0000f)
-		{
-			isBreaking = false;
-			m_speed = 0.f;
-		}
+		if (m_speed > SPEED_LIMIT)
+			m_speed = SPEED_LIMIT;
+	}
+	else
+	{
+		if (m_speed > SPEED_LIMIT * 1.5f)
+			m_speed = SPEED_LIMIT * 1.5f;
 	}
 }

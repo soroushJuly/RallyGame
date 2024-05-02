@@ -23,6 +23,8 @@ public:
 
 private:
 	float m_speed;
+	// acceleration of the car
+	float a;
 	bool isBreaking;
 	const float SPEED_LIMIT = 0.14f;
 

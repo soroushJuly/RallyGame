@@ -643,7 +643,7 @@ void Game::Update()
 	m_car->SetPosition(newPosition);
 	m_car->SetOrientation(m_spaceShipOrientation);
 
-	m_pAudio->SetVolume(m_car->GetSpeed()/m_car->GetSpeedLimit() * 0.2f + 0.05f);
+	m_pAudio->SetVolume(m_car->GetSpeed()/m_car->GetSpeedLimit() * 0.15f + 0.05f);
 
 	m_pAudio->Update();
 }
