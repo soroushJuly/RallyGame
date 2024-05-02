@@ -294,6 +294,8 @@ void Game::Initialise()
 
 	// Initialise audio and play background music
 	m_pAudio->Initialise();
+	m_pAudio->LoadMusicStream("resources\\Audio\\Car_Engine_Loop.ogg");
+	m_pAudio->PlayMusicStream();
 }
 
 // Render method runs repeatedly in a loop
@@ -367,6 +369,25 @@ void Game::RenderScene(int pass)
 
 			/********************	RENDER HUD	  ****************/
 			m_hud->Render(&modelViewMatrixStack, pMainProgram, m_pCamera, m_car, m_width, m_height);
+			// 2.5D text - Player1
+			glm::vec3 q = m_car->GetPosition() + glm::vec3(0, 6.f, 0) - rightVec * .5f;
+			GLint viewport[4];
+			glGetIntegerv(GL_VIEWPORT, viewport);
+			glm::vec4 vp(viewport[0], viewport[1], viewport[2], viewport[3]);
+			glm::vec3 p = glm::project(q, modelViewMatrixStack.Top(),
+				*(m_pCamera->GetPerspectiveProjectionMatrix()), vp);
+			GLfloat depth;
+			glReadPixels((int)p.x, (int)p.y, 1, 1, GL_DEPTH_COMPONENT, GL_FLOAT, &depth);
+			float offset = 0.001f;
+			if (p.z - offset < depth && glm::distance(q, m_pCamera->GetPosition()) < 20) {
+				CShaderProgram* fontProgram = (*m_pShaderPrograms)[1];
+				fontProgram->UseProgram();
+				fontProgram->SetUniform("matrices.modelViewMatrix", glm::mat4(1));
+				fontProgram->SetUniform("matrices.projMatrix",
+					m_pCamera->GetOrthographicProjectionMatrix());
+				fontProgram->SetUniform("vColour", glm::vec4(1.0f, 1.0f, 1.0f, .6f));
+				m_pFtFont->Render(p.x, p.y, 20, "Player1");
+			}
 			return;
 		}
 		// Render the skybox and terrain with full ambient reflectance 
@@ -622,7 +643,9 @@ void Game::Update()
 	m_car->SetPosition(newPosition);
 	m_car->SetOrientation(m_spaceShipOrientation);
 
-	//m_pAudio->Update();
+	m_pAudio->SetVolume(m_car->GetSpeed()/m_car->GetSpeedLimit() * 0.2f + 0.05f);
+
+	m_pAudio->Update();
 }
 
 void Game::Render()
@@ -888,12 +911,6 @@ LRESULT Game::ProcessEvents(HWND window, UINT message, WPARAM w_param, LPARAM l_
 		switch (w_param) {
 		case VK_ESCAPE:
 			PostQuitMessage(0);
-			break;
-		case '1':
-			m_pAudio->PlayEventSound();
-			break;
-		case VK_F1:
-			m_pAudio->PlayEventSound();
 			break;
 		}
 		break;
