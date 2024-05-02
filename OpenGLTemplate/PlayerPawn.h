@@ -26,7 +26,7 @@ private:
 	// acceleration of the car
 	float a;
 	bool isBraking;
-	const float SPEED_LIMIT = 0.14f;
+	const float SPEED_LIMIT = 0.18f;
 
 	double turboTimer = 0.0;
 	bool isTurbo = false;
