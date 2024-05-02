@@ -128,6 +128,7 @@ void main()
 		vec4 vTexColour = vec4(1.f);	
 		vec4 vTexColour0 = texture(sampler0, vTexCoord);	
 		vec4 vTexColour1 = texture(sampler1, vTexCoord);
+
 		// Calculate multiTexturing (if "on")
 		if(isMultiTexture)
 		{

@@ -25,7 +25,6 @@ Source code drawn from a number of sources and examples, including contributions
 
 #include "game.h"
 
-
 // Setup includes
 #include "HighResolutionTimer.h"
 #include "GameWindow.h"
@@ -494,6 +493,7 @@ void Game::RenderScene(int pass)
 			modelViewMatrixStack.Pop();
 		}
 
+		// Second pass (only renders in FIRST_PERSON view)
 		if (pass == 1 && (m_cameraState == CCamera::States::FIRST_PERSON))
 		{
 			modelViewMatrixStack.Push();
