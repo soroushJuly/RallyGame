@@ -638,7 +638,7 @@ void Game::Update()
 	sunToggleTime -= m_dt;
 	forwardVec = T;
 	rightVec = N;
-	glm::vec3 newPosition = p + T + N * diversionFromCenter;
+	glm::vec3 newPosition = p + T + N * diversionFromCenter + 0.5f;
 	distanceTraveled += glm::distance(newPosition, m_car->GetPosition());
 	m_car->SetPosition(newPosition);
 	m_car->SetOrientation(m_spaceShipOrientation);

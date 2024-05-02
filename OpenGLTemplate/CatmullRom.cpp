@@ -44,22 +44,29 @@ glm::vec3 CCatmullRom::Interpolate(glm::vec3& p0, glm::vec3& p1, glm::vec3& p2, 
 void CCatmullRom::SetControlPoints()
 {
 	// Set control points (m_controlPoints) here, or load from disk
-	// First line with up and downs 0 - 4
-	m_controlPoints.push_back(glm::vec3(-500, 0.01f, -400));
-	m_controlPoints.push_back(glm::vec3(-500, 0.01f, 0));
-	m_controlPoints.push_back(glm::vec3(-500, 0.01f, 400));
-	m_controlPoints.push_back(glm::vec3(-500, 0.01f, 800));
-	m_controlPoints.push_back(glm::vec3(-500, 0.01f, 1000));
-	//// Round 5
-	m_controlPoints.push_back(glm::vec3(-300, 0.01f, 1300));
+	// First line with up and downs 0 - 11
+	m_controlPoints.push_back(glm::vec3(-500, 1.51f, -400));
+	m_controlPoints.push_back(glm::vec3(-500, 10.01f, 0));
+	m_controlPoints.push_back(glm::vec3(-500, 20.01f, 100));
+	m_controlPoints.push_back(glm::vec3(-500, 30.01f, 200));
+	m_controlPoints.push_back(glm::vec3(-500, 50.01f, 300));
+	m_controlPoints.push_back(glm::vec3(-500, 50.01f, 400));
+	m_controlPoints.push_back(glm::vec3(-500, 40.01f, 500));
+	m_controlPoints.push_back(glm::vec3(-500, 20.01f, 600));
+	m_controlPoints.push_back(glm::vec3(-500, 10.01f, 700));
+	m_controlPoints.push_back(glm::vec3(-500, 5.01f, 750));
+	m_controlPoints.push_back(glm::vec3(-500, 2.51f, 800));
+	m_controlPoints.push_back(glm::vec3(-500, 0.51f, 1000));
+	//// Round 12
+	m_controlPoints.push_back(glm::vec3(-300, 5.01f, 1300));
 	//// Marpich
-	m_controlPoints.push_back(glm::vec3(300, 0.01f, 1100));
-	m_controlPoints.push_back(glm::vec3(100, 0.01f, 700));
-	m_controlPoints.push_back(glm::vec3(300, 0.01f, 400));
-	m_controlPoints.push_back(glm::vec3(0, 0.01f, 100));
-	m_controlPoints.push_back(glm::vec3(-100, 0.01f, -100));
-	m_controlPoints.push_back(glm::vec3(100, 0.01f, -500));
-	m_controlPoints.push_back(glm::vec3(-100, 0.01f, -800));
+	m_controlPoints.push_back(glm::vec3(300, 0.51f, 1100));
+	m_controlPoints.push_back(glm::vec3(-220, 0.51f, 700));
+	m_controlPoints.push_back(glm::vec3(300, 0.51f, 400));
+	m_controlPoints.push_back(glm::vec3(0, 0.51f, 100));
+	m_controlPoints.push_back(glm::vec3(-100, 0.51f, -100));
+	m_controlPoints.push_back(glm::vec3(100, 0.51f, -500));
+	m_controlPoints.push_back(glm::vec3(-100, 1.51f, -800));
 
 	// Optionally, set upvectors (m_controlUpVectors, one for each control point as well)
 }
