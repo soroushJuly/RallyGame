@@ -97,7 +97,7 @@ private:
 	glm::vec3 m_spaceShipPosition; 
 	glm::vec3 forwardVec;
 	glm::vec3 rightVec;
-	glm::mat4 m_spaceShipOrientation;
+	glm::mat4 m_carOrientation;
 
 	glm::mat4* barriersModelMatrices;
 

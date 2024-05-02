@@ -8,6 +8,7 @@ class COpenAssetImportMesh;
 class CShaderProgram;
 class CCamera;
 
+// Actor is every mesh in the scene 
 class Actor {
 public:
 	Actor();
@@ -17,6 +18,7 @@ public:
 	void Initialise(const std::string& filePath);
 	void Update(double deltaTime);
 	void Render(glutil::MatrixStack* modelViewMatrixStack, CShaderProgram* shaderProgram, std::shared_ptr<CCamera> camera);
+	// Render using instanced rendering
 	void RenderInstanced(glutil::MatrixStack* modelViewMatrixStack, CShaderProgram* shaderProgram,
 		std::shared_ptr<CCamera> camera, glm::mat4* modelMatrices, int amount);
 
@@ -38,6 +40,6 @@ private:
 	glm::vec3 m_scale;
 	glm::vec3 m_rotationAxis;
 	glm::mat4 m_orientation;
-
+	// rotation amount along the axis
 	float m_rotation;
 };

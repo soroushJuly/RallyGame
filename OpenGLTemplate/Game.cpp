@@ -116,7 +116,7 @@ void Game::Initialise()
 	m_torus = make_shared<CTorus>();
 	m_quad = make_shared<Quad>();
 
-	// Create the path
+	// Create the path and passing two textures to create multi-texturing 
 	m_catmull = make_shared<CCatmullRom>("resources\\textures\\dirt3.jpg", "resources\\textures\\sand.jpg");
 	m_catmull->CreateCentreline();
 	m_catmull->CreateOffsetCurves(PATH_WIDTH);
@@ -129,8 +129,8 @@ void Game::Initialise()
 	// Initilize camera to third person
 	m_cameraState = CCamera::States::THIRD_PERSON;
 
+	// Get the window details
 	RECT dimensions = m_gameWindow.GetDimensions();
-
 	m_width = dimensions.right - dimensions.left;
 	m_height = dimensions.bottom - dimensions.top;
 
@@ -203,6 +203,7 @@ void Game::Initialise()
 		int random2 = rand() % pathSectionSize;
 		int random3 = rand() % pathSectionSize;
 		// PATH_WIDTH is the path width right now
+		// Create random location in the width of the path
 		int randomWidth = rand() % ((int)PATH_WIDTH - 4) - (PATH_WIDTH / 2 - 2);
 		int randomWidth2 = rand() % ((int)PATH_WIDTH - 4) - (PATH_WIDTH / 2 - 2);
 		int randomWidth3 = rand() % ((int)PATH_WIDTH - 4) - (PATH_WIDTH / 2 - 2);
@@ -211,7 +212,6 @@ void Game::Initialise()
 
 		glm::vec3 T = glm::normalize(pNext - p);
 		glm::vec3 N = glm::normalize(glm::cross(T, Y_AXIS));
-		glm::vec3 B = glm::normalize(glm::cross(N, T));
 
 		m_rocksList.push_back(m_catmull->GetCenterPoints()[i + random] + (float)randomWidth * N);
 		m_timePowerUpList.push_back(m_catmull->GetCenterPoints()[i + random2] + (float)randomWidth2 * N);
@@ -270,6 +270,7 @@ void Game::Initialise()
 		barriersModelMatrices[i + roadSize] = model;
 	}
 
+	// Load and transform starting line
 	m_startingPoint->Initialise("resources\\models\\Starting Line\\arch.obj");
 	m_startingPoint->SetScale(glm::vec3(180.0f, 110.0f, 180.0f));
 	m_startingPoint->SetPosition(m_catmull->GetCenterPoints()[1]);
@@ -298,9 +299,9 @@ void Game::Initialise()
 }
 
 // Render method runs repeatedly in a loop
+// RenderScene may called multiple times in one buffer swap
 void Game::RenderScene(int pass)
 {
-
 	// Clear the buffers and enable depth testing (z-buffering)
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glEnable(GL_DEPTH_TEST);
@@ -324,8 +325,7 @@ void Game::RenderScene(int pass)
 	// Set the projection matrix
 	pMainProgram->SetUniform("matrices.projMatrix", m_pCamera->GetPerspectiveProjectionMatrix());
 
-	// Call LookAt to create the view matrix and put this on the modelViewMatrix stack. 
-	// Store the view matrix and the normal matrix associated with the view matrix for later (they're useful for lighting -- since lighting is done in eye coordinates)
+	// Create view matrix and put it on the modelViewMatrix stack. Store view matrix and the normal matrix associated with it
 	modelViewMatrixStack.LookAt(m_pCamera->GetPosition(), m_pCamera->GetView(), m_pCamera->GetUpVector());
 	glm::mat4 viewMatrix = modelViewMatrixStack.Top();
 	glm::mat3 viewNormalMatrix = m_pCamera->ComputeNormalMatrix(viewMatrix);
@@ -334,6 +334,7 @@ void Game::RenderScene(int pass)
 	// Print finish message and score when the game finishes
 	if (gameState == GameStates::FINISH)
 	{
+		m_pAudio->SetVolume(0.f);
 		CShaderProgram* fontProgram = (*m_pShaderPrograms)[1];
 		fontProgram->UseProgram();
 		glDisable(GL_DEPTH_TEST);
@@ -584,7 +585,7 @@ void Game::Update()
 	glm::vec3 N = glm::normalize(glm::cross(T, Y_AXIS));
 	glm::vec3 B = glm::normalize(glm::cross(N, T));
 
-	m_spaceShipOrientation = glm::mat4(glm::mat3(T, B, N));
+	m_carOrientation = glm::mat4(glm::mat3(T, B, N));
 
 	// Update car position
 	m_car->Update(m_dt);
@@ -634,16 +635,19 @@ void Game::Update()
 			sunToggleTime = 700;
 		}
 	}
+	// Update timers
 	lightToggleTime -= m_dt;
 	sunToggleTime -= m_dt;
 	forwardVec = T;
 	rightVec = N;
 	glm::vec3 newPosition = p + T + N * diversionFromCenter + 0.5f;
+	// Distance traveled will be used in Lap count
 	distanceTraveled += glm::distance(newPosition, m_car->GetPosition());
 	m_car->SetPosition(newPosition);
-	m_car->SetOrientation(m_spaceShipOrientation);
+	m_car->SetOrientation(m_carOrientation);
 
-	m_pAudio->SetVolume(m_car->GetSpeed()/m_car->GetSpeedLimit() * 0.15f + 0.05f);
+	// Set the engine volume in regards to car's speed
+	m_pAudio->SetVolume(m_car->GetSpeed()/m_car->GetSpeedLimit() * 0.08f + 0.03f);
 
 	m_pAudio->Update();
 }
