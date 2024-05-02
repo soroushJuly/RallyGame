@@ -85,6 +85,12 @@ void CAudio::FmodErrorCheck(FMOD_RESULT result)
 	}
 }
 
+// Sets the volume of the channel
+void CAudio::SetVolume(float volume) const
+{
+	m_musicChannel->setVolume(volume);
+}
+
 void CAudio::Update()
 {
 	m_FmodSystem->update();

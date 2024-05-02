@@ -15,6 +15,8 @@ public:
 	bool PlayEventSound();
 	bool LoadMusicStream(const char *filename);
 	bool PlayMusicStream();
+	// Sets the volume for channel
+	void SetVolume(float volume) const;
 	void Update();
 
 private:
