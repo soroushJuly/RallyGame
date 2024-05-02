@@ -4,14 +4,14 @@ PlayerPawn::PlayerPawn() : Actor::Actor()
 {
 	m_speed = 0.0f;
 	a = 0.f;
-	isBreaking = false;
+	isBraking = false;
 	SetScale(glm::vec3(2.4f));
 }
 
 PlayerPawn::~PlayerPawn() {}
 
 void PlayerPawn::Accelerate(double delta) {
-	isBreaking = false;
+	isBraking = false;
 	a += 0.000002f;
 	if (a > 0.000052f)
 	{
@@ -41,13 +41,13 @@ void PlayerPawn::activateTurbo()
 	turboTimer = 5000;
 }
 
-void PlayerPawn::Break(double deltaTime) {
-	isBreaking = true;
+void PlayerPawn::Brake(double deltaTime) {
+	isBraking = true;
 	a -= 0.0000015f;
 	if (m_speed < 0.0000f)
 	{
 		m_speed = 0.f;
-		isBreaking = false;
+		isBraking = false;
 	}
 }
 
@@ -58,7 +58,7 @@ void PlayerPawn::Update(double deltaTime)
 	// If we have speed decrease speed
 	if (m_speed < 0.0000f)
 	{
-		isBreaking = false;
+		isBraking = false;
 		m_speed = 0.f;
 		a = 0.f;
 	}

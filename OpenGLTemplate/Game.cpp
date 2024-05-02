@@ -615,7 +615,7 @@ void Game::Update()
 			m_car->SetRotation(Y_AXIS, m_car->GetRotationAmountY() - .003f * m_dt);
 	}
 	if (GetKeyState('S') & 0x80) {
-		m_car->Break(m_dt);
+		m_car->Brake(m_dt);
 	}
 	if (GetKeyState('W') & 0x80) {
 		m_car->Accelerate(m_dt);
@@ -749,7 +749,7 @@ void Game::AddLights(CShaderProgram* shader, glm::mat4 viewMatrix, glm::mat3 vie
 		shader->SetUniform("lights[2].Ls", glm::vec3(.0f, .0f, .0f));
 	}
 
-	// light[3] -> right break car spotlight
+	// light[3] -> right Brake car spotlight
 	shader->SetUniform("lights[3].position", viewMatrix *
 		glm::vec4(m_car->GetPosition() + -2.6f * forwardVec + 1.7f * rightVec + 2.8f * Y_AXIS, 1.f));
 	shader->SetUniform("lights[3].La", glm::vec3(.0f, .0f, .0f));
@@ -759,7 +759,7 @@ void Game::AddLights(CShaderProgram* shader, glm::mat4 viewMatrix, glm::mat3 vie
 	shader->SetUniform("lights[3].exponent", .0f);
 	shader->SetUniform("lights[3].cutoff", 37.0f);
 
-	// light[4] -> left break car spotlight
+	// light[4] -> left brake car spotlight
 	shader->SetUniform("lights[4].position", viewMatrix *
 		glm::vec4(m_car->GetPosition() + -2.6f * forwardVec - 1.7f * rightVec + 2.8f * Y_AXIS, 1.f));
 	shader->SetUniform("lights[4].La", glm::vec3(.0f, .0f, .0f));
@@ -768,7 +768,7 @@ void Game::AddLights(CShaderProgram* shader, glm::mat4 viewMatrix, glm::mat3 vie
 	shader->SetUniform("lights[4].direction", glm::normalize(viewNormalMatrix * -forwardVec));
 	shader->SetUniform("lights[4].exponent", .0f);
 	shader->SetUniform("lights[4].cutoff", 37.0f);
-	if (m_car->IsBreaking())
+	if (m_car->IsBraking())
 	{
 		shader->SetUniform("lights[3].La", glm::vec3(.01f, .0f, .0f));
 		shader->SetUniform("lights[3].Ld", glm::vec3(.1f, .0f, .0f));
