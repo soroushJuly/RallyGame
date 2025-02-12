@@ -5,7 +5,7 @@
 *.slo
 *.lo
 *.o
-*.obj
+##*.obj
 
 # Precompiled Headers
 *.gch
@@ -14,7 +14,8 @@
 # Compiled Dynamic libraries
 *.so
 *.dylib
-*.dll
+#### FOR NOW WE LET COMPILED DYNAMIC LIBRARIES IN ##
+##*.dll
 
 # Fortran module files
 *.mod
@@ -24,7 +25,8 @@
 *.lai
 *.la
 *.a
-*.lib
+## For now we let static libraries in ##
+#*.lib
 
 # Executables
 *.exe
@@ -78,7 +80,7 @@ x86/
 [Aa][Rr][Mm]/
 [Aa][Rr][Mm]64/
 bld/
-[Bb]in/
+##[Bb]in/
 [Oo]bj/
 [Ll]og/
 [Ll]ogs/
@@ -125,7 +127,7 @@ StyleCopReport.xml
 *_h.h
 *.ilk
 *.meta
-*.obj
+#*.obj
 *.iobj
 *.pch
 *.pdb
